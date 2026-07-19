@@ -1,0 +1,4 @@
+/* Tailwind 4 minimal */
+@import "tailwindcss";
+
+html, body { height: 100%; margin: 0; }
