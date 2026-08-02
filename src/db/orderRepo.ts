@@ -23,7 +23,7 @@ function uid(): string {
 }
 
 export async function listOrders(opts?: { industryId?: IndustryId; limit?: number }): Promise<Order[]> {
-  let collection = db.orders.orderBy('createdAt').reverse();
+  const collection = db.orders.orderBy('createdAt').reverse();
   let rows = await collection.toArray();
   if (opts?.industryId) {
     rows = rows.filter((o) => o.industryId === opts.industryId);
