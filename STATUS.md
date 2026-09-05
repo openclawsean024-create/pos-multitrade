@@ -33,3 +33,5 @@ DataError: Data provided to an operation does not meet requirements.
 - Production code: ✅ shipped to Vercel
 - Tests: 58 pass + 23 skipped (db layer unverified by unit tests)
 - Recommend: add Playwright e2e test to cover db layer in real browser
+
+<!-- Last validated: 2026-09-06 by OpenClaw Overnight Dev -->
