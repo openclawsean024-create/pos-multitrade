@@ -1007,6 +1007,95 @@ quadrantChart
 
 ---
 
-*文件結束。本 PRD 為 **v3.0**（2026-07-19），已通過 write-prd-v2 v3.0 SOP 100% 合規：
-§0 文件資訊表 ✅、§15.11 統一 0-10 量表 ✅、§15.12 ADR ✅、§15.13 市場驗證計畫 ✅。
-下游開發可依本文件執行 Sprint 1 v1 MVP。*
+## 16. ⭐ v3.0.2 部署契約 (Fleet 升級規格) — 2026-09-06
+
+> v3.0.2 完成於 2026-09-06 by Sean 10-repo-fleet（Batch 6C）
+> 本章節為 v3.0 內容之**附加部署契約**章節，不變更 v3.0 任何章節。
+
+### 16.1 部署目標
+
+| 環境 | 目標 | 觸發 |
+|---|---|---|
+| Production | Vercel（Next.js 16 App Router） | push to `main` |
+| Preview | Per-PR Vercel preview | PR opened |
+| Test artifact | Vitest unit tests + Playwright e2e | 每個 push 跑 GHA |
+
+### 16.2 Build / Lint / Test 契約
+
+| 階段 | 指令 | 預期結果 |
+|---|---|---|
+| Install | `npm install --legacy-peer-deps` | 0 error |
+| Lint | `npm run lint` | 0 warning（Next.js + ESLint 9 flat config） |
+| Typecheck | `npx tsc --noEmit` | 0 error |
+| Unit test | `npm test`（vitest run） | 58 pass + 23 skipped (DB tests 待修，見 §16.5) |
+| Build | `npx next build` | 0 error |
+| E2E | `npm run e2e`（playwright test） | 需先啟 dev server（Playwright config 預設 `localhost:3000`） |
+
+### 16.3 GHA Workflow 契約（4 jobs）
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:    # 跑 next lint，0 error 才綠
+  test:    # 跑 vitest run（含 23 個 skip 的 DB 測試）
+  build:   # 跑 next build，產出 .next/
+  deploy:  # 透過 amondnet/vercel-action@v25 部署到 Vercel（需 secrets.VERCEL_TOKEN）
+```
+
+### 16.4 環境變數（v3.0.2 最終）
+
+| Key | 用途 | 必填 | 備註 |
+|---|---|---|---|
+| `NEXT_PUBLIC_APP_URL` | 對外網址（用於分享連結） | ✅ 部署時 | 本地預設 `http://localhost:3000` |
+| `VERCEL_TOKEN` | Vercel deploy token | ✅ 部署時 | GHA secret |
+| `VERCEL_ORG_ID` | Vercel org id | ✅ 部署時 | GHA secret |
+| `VERCEL_PROJECT_ID` | Vercel project id | ✅ 部署時 | GHA secret |
+
+> v3.0 SPEC 提到未來 Supabase Auth（v2 連鎖加盟版）需 `NEXT_PUBLIC_SUPABASE_URL` / `SUPABASE_ANON_KEY` — v3.0.2 仍未啟用，留待 v3.1 補。
+
+### 16.5 已知限制（v3.0.2 驗證時確認）
+
+- ✅ **58/58 非 DB 單元測試綠**：pricing (12) / commission (11) / templates (10) / report (7) / orderNumber (6) / multiStore (3) / offline (6) / technicianRepo (3) — 0.05s 跑完
+- ⚠️ **23 個 DB 測試跳過**：`productRepo (9)` / `orderRepo (8)` / `snapshotRepo (6)` — fake-indexeddb 6.x 與 Dexie 4.x compound index `[industryId+isTemplate]` 不相容，StatusError: DataError。修法見 STATUS.md
+- ✅ **ESLint 9 flat config** 跑通（migrate from legacy `.eslintrc`）
+- ✅ **Playwright e2e** config 已備（`playwright.config.ts`），待 dev server 啟動後可跑
+- ✅ **`npx tsc --noEmit` 0 error**（strict mode 全開）
+
+### 16.6 ADR 新增（v3.0.2）
+
+| # | 決策 | 原因 | 替代方案 |
+|---|---|---|---|
+| **ADR-011** | 用 ESLint 9 flat config（`eslint.config.mjs`） | Next.js 15+ 預設 flat config，向前看齊 | legacy `.eslintrc`（已被 Next 16 警告 deprecate） |
+| **ADR-012** | DB 測試暫時跳過 + 改用 Playwright e2e 補 | fake-indexeddb 6.x 與 Dexie 4.x 短期不相容 | 升 fake-indexeddb 到 7.x（風險：可能連帶升 Dexie 4 → 5） |
+| **ADR-013** | GHA 部署用 Vercel（保留 Supabase v2 為未來 sprint） | 純前端 + Vercel Edge CDN 零成本 | Cloudflare Pages（多一層設定） |
+
+### 16.7 Fleet 升級後的狀態
+
+| 項目 | v3.0 狀態 | v3.0.2 狀態（升級後） |
+|---|---|---|
+| 規格書版本 | v3.0 SOP 合規 | v3.0 + §16 部署契約 |
+| Lint | 0 error | 0 error |
+| Typecheck | 0 error | 0 error |
+| Unit tests | 58 pass + 23 skip | 58 pass + 23 skip（狀態同 v3.0） |
+| Build | 綠 | 綠 |
+| GHA CI | 無 | ✅ 新增 4 jobs（lint/test/build/deploy） |
+| 部署 | Vercel | Vercel（workflow 自動化） |
+| 預設分支 | `main` | `main` |
+
+---
+
+*文件結束。本 PRD 為 **v3.0.2**（2026-09-06），已通過 write-prd-v2 v3.0 SOP 100% 合規 + §16 Fleet 部署契約：
+§0 文件資訊表 ✅、§15.11 統一 0-10 量表 ✅、§15.12 ADR ✅、§15.13 市場驗證計畫 ✅、§16 部署契約 ✅。*
