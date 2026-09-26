@@ -84,7 +84,10 @@ export async function toggleProductActive(id: string): Promise<Product | undefin
  * Idempotent — if industry already has templates, skip.
  */
 export async function ensureIndustrySeeded(industryId: IndustryId): Promise<Product[]> {
-  const existing = await db.products.where({ industryId, isTemplate: true }).count();
+  // Avoid Dexie compound-key range queries (known issue with IDBKeyRange.bound
+  // in some browser IndexedDB implementations). Use single-field filtering.
+  const all = await db.products.where('industryId').equals(industryId).toArray();
+  const existing = all.filter((p) => p.isTemplate).length;
   if (existing > 0) {
     return listProducts(industryId);
   }

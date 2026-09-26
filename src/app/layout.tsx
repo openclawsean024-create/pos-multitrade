@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'POS 多行業系統',
-  description: '餐飲 / 零售 / 服務業 · v3.0 production',
+  title: 'POS Multi-Trade · Commerce Console',
+  description: 'Local-first POS for food & beverage, retail and service businesses.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
