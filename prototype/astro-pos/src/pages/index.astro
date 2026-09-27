@@ -1,0 +1,202 @@
+---
+import '../../src/styles/console.css';
+
+const industries = [
+  { id: 'fnb', label: '餐飲', english: 'Food service', eyebrow: 'F&B', accent: '#e7ff57' },
+  { id: 'retail', label: '零售', english: 'Retail', eyebrow: 'RETAIL', accent: '#88b7ff' },
+  { id: 'service', label: '服務', english: 'Services', eyebrow: 'SERVICES', accent: '#ffb58d' },
+];
+
+const products = [
+  { id: 'latte', code: 'DR-001', name: '燕麥拿鐵', english: 'Oat latte', category: 'Coffee', price: 150, stock: 18, tone: 'lime', mark: 'OL' },
+  { id: 'tea', code: 'DR-002', name: '冷泡茶', english: 'Cold brew tea', category: 'Tea', price: 120, stock: 26, tone: 'blue', mark: 'CB' },
+  { id: 'toast', code: 'FD-021', name: '酸種吐司', english: 'Sourdough toast', category: 'Food', price: 180, stock: 7, tone: 'orange', mark: 'ST' },
+  { id: 'bowl', code: 'FD-024', name: '季節沙拉碗', english: 'Seasonal bowl', category: 'Food', price: 260, stock: 5, tone: 'violet', mark: 'SB' },
+  { id: 'cookie', code: 'FD-030', name: '黑糖餅乾', english: 'Brown sugar cookie', category: 'Food', price: 90, stock: 32, tone: 'rose', mark: 'BS' },
+  { id: 'filter', code: 'DR-006', name: '單品濾泡', english: 'Filter coffee', category: 'Coffee', price: 190, stock: 11, tone: 'ink', mark: 'FC' },
+];
+
+const profileData = {
+  fnb: { title: '餐飲營運', description: '尖峰時段快速點單與加購', categories: ['全部商品', 'Coffee', 'Tea', 'Food'], signal: '2 個品項庫存偏低', activity: '桌邊加購 · 2 分鐘前' },
+  retail: { title: '零售營運', description: '商品、庫存與全通路銷售', categories: ['全部商品', 'New', 'Apparel', 'Home'], signal: '4 個品項庫存偏低', activity: '門市銷售 · 6 分鐘前' },
+  service: { title: '服務營運', description: '預約、服務項目與技師分派', categories: ['全部服務', 'Session', 'Package', 'Add-on'], signal: '今日 3 個待確認預約', activity: '服務完成 · 11 分鐘前' },
+};
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="POS Multi-Trade international commerce console prototype" />
+    <title>POS Multi-Trade · Commerce Console</title>
+  </head>
+  <body>
+    <div class="app-shell" data-industry="fnb">
+      <aside class="rail" aria-label="主要功能導覽">
+        <div class="rail-top">
+          <a class="brand" href="/" aria-label="POS Multi-Trade 首頁">
+            <span class="brand-mark">P</span>
+            <span class="brand-copy"><strong>POS</strong><small>MULTI-TRADE</small></span>
+          </a>
+
+          <button class="workspace-switch" type="button" data-action="workspace" aria-label="切換工作區">
+            <span class="workspace-avatar">LD</span>
+            <span class="workspace-copy"><strong>Little Day</strong><small>Taipei · Counter 01</small></span>
+            <span class="workspace-chevron" aria-hidden="true">⌄</span>
+          </button>
+
+          <div class="rail-heading"><span>Operate</span><span>⌘</span></div>
+          <nav class="primary-nav" aria-label="Operate">
+            <button class="nav-item is-active" type="button" data-nav="counter" aria-current="page">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5h6v6H4zm10 0h6v6h-6zM4 15.5h6v4H4zm10 0h6v4h-6z" /></svg></span>
+              <span class="nav-copy"><strong>收銀台</strong><small>Counter</small></span><kbd>⌘1</kbd>
+            </button>
+            <button class="nav-item" type="button" data-nav="orders">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4.5h12v15H6zM9 8h6M9 12h6M9 16h3" /></svg></span>
+              <span class="nav-copy"><strong>訂單</strong><small>Orders</small></span><span class="nav-badge">4</span>
+            </button>
+            <button class="nav-item" type="button" data-nav="catalog">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14v3H5zm0 5h6v6H5zm9 0h5v6h-5z" /></svg></span>
+              <span class="nav-copy"><strong>商品</strong><small>Catalog</small></span><kbd>⌘3</kbd>
+            </button>
+            <button class="nav-item" type="button" data-nav="insights">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V11M12 19V5M19 19v-8" /></svg></span>
+              <span class="nav-copy"><strong>報表</strong><small>Insights</small></span><kbd>⌘4</kbd>
+            </button>
+          </nav>
+
+          <div class="rail-heading rail-heading-manage"><span>Manage</span><span>+</span></div>
+          <nav class="primary-nav" aria-label="Manage">
+            <button class="nav-item" type="button" data-nav="settings">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 4.5h5l.7 2.1 2 .9 2-.8 2.5 4.3-1.7 1.5v2.3l1.7 1.5-2.5 4.3-2-.8-2 .9-.7 2.1h-5l-.7-2.1-2-.9-2 .8-2.5-4.3 1.7-1.5v-2.3L2.3 11l2.5-4.3 2 .8 2-.9zM12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" /></svg></span>
+              <span class="nav-copy"><strong>設定</strong><small>Settings</small></span><kbd>⌘,</kbd>
+            </button>
+          </nav>
+        </div>
+
+        <div class="rail-bottom">
+          <div class="profile-mini">
+            <span class="profile-dot"></span><span><strong data-profile-label>F&B profile</strong><small>Local-first workspace</small></span>
+          </div>
+          <button class="rail-user" type="button" data-action="profile" aria-label="開啟行業 profile 切換">
+            <span class="user-avatar">SL</span><span><strong>Sean Li</strong><small>Owner</small></span><span class="user-more">···</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Commerce OS</span><i>/</i><strong>Counter</strong><span class="live-pill"><b></b> LOCAL MODE</span></div>
+          <div class="top-actions">
+            <button class="icon-action" type="button" data-action="search" aria-label="搜尋"><span>⌕</span><kbd>/</kbd></button>
+            <button class="text-action" type="button" data-action="locale">EN <span>⌄</span></button>
+            <button class="text-action" type="button" data-action="help">Help</button>
+            <button class="user-chip" type="button" data-action="profile"><span class="user-avatar small">SL</span><span>Sean</span><span>⌄</span></button>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="page-intro">
+            <div><p class="eyebrow">TODAY · SAT 27 SEP 2026</p><h1>Good morning, Sean.</h1><p class="intro-copy">Run the floor with a clear view of every sale, item and signal.</p></div>
+            <div class="intro-actions"><button class="outline-button" type="button" data-action="snapshot">View snapshots <span>↗</span></button><button class="primary-button" type="button" data-action="new-sale">+ New sale</button></div>
+          </section>
+
+          <section class="profile-strip" aria-label="Business profile">
+            <div class="profile-strip-label"><span class="eyebrow">BUSINESS PROFILE</span><strong data-profile-title>餐飲營運</strong><small data-profile-description>尖峰時段快速點單與加購</small></div>
+            <div class="profile-switcher">
+              {industries.map((industry) => (
+                <button class:list={['profile-option', industry.id === 'fnb' && 'is-active']} type="button" data-industry={industry.id} style={`--option-accent:${industry.accent}`}>
+                  <span class="profile-option-mark">{industry.eyebrow.slice(0, 2)}</span><span><strong>{industry.label}</strong><small>{industry.english}</small></span><span class="profile-check">✓</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section class="metrics-grid" aria-label="Today at a glance">
+            <article class="metric-card metric-dark"><div><span class="metric-label">NET SALES <i>Today</i></span><strong>NT$ 24,680</strong><small><b>↑ 18.4%</b> vs last Saturday</small></div><span class="metric-glyph">↗</span></article>
+            <article class="metric-card"><div><span class="metric-label">ORDERS <i>Today</i></span><strong>42</strong><small><b class="neutral">+6</b> from yesterday</small></div><div class="sparkline sparkline-blue"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></article>
+            <article class="metric-card"><div><span class="metric-label">AVG. TICKET <i>Today</i></span><strong>NT$ 588</strong><small><b class="warm">↑ 4.2%</b> vs last Saturday</small></div><div class="metric-glyph light">◎</div></article>
+            <article class="metric-card metric-alert"><div><span class="metric-label">ATTENTION <i>Signals</i></span><strong>02</strong><small><b class="alert-text">Needs a look</b> low stock items</small></div><div class="metric-glyph alert">!</div></article>
+          </section>
+
+          <section class="work-grid">
+            <article class="panel catalog-panel" data-panel="counter">
+              <div class="panel-header"><div><span class="panel-kicker">QUICK SALE</span><h2>Catalog <span>·</span> <small data-products-count>6 items</small></h2></div><button class="more-button" type="button" data-action="catalog">Open catalog <span>↗</span></button></div>
+              <div class="catalog-toolbar"><div class="category-tabs" role="tablist">{profileData.fnb.categories.map((category, index) => <button class:list={['category-tab', index === 0 && 'is-active']} type="button" data-category={category}>{category}</button>)}</div><label class="catalog-search"><span>⌕</span><input type="search" placeholder="Search items" aria-label="Search catalog" data-search /></label></div>
+              <div class="product-grid" data-product-grid>
+                {products.map((product) => (
+                  <button class="product-card" type="button" data-product={product.id} data-category={product.category} data-name={`${product.name} ${product.english}`}>
+                    <span class:list={['product-mark', `tone-${product.tone}`]}>{product.mark}</span><span class="product-meta"><small>{product.code} · {product.category}</small><strong>{product.name}</strong><em>{product.english}</em></span><span class="product-footer"><b>NT$ {product.price.toLocaleString('en-US')}</b><small class:list={[product.stock <= 7 && 'stock-low']}>{product.stock} in stock</small></span><span class="add-mark">+</span>
+                  </button>
+                ))}
+              </div>
+            </article>
+
+            <aside class="panel cart-panel" aria-label="Current cart">
+              <div class="panel-header cart-header"><div><span class="panel-kicker">CURRENT SALE</span><h2>Cart <span class="cart-count" data-cart-count>0</span></h2></div><button class="more-button" type="button" data-action="clear-cart">Clear</button></div>
+              <div class="cart-content" data-cart-content><div class="empty-cart"><span class="empty-cart-icon">＋</span><strong>Your cart is empty</strong><small>Select an item to start a new sale.</small></div></div>
+              <div class="cart-summary"><div><span>Subtotal</span><strong data-cart-subtotal>NT$ 0</strong></div><div><span>Tax <small>Inclusive</small></span><strong data-cart-tax>NT$ 0</strong></div><div class="total-row"><span>Total</span><strong data-cart-total>NT$ 0</strong></div><div class="payment-row" role="group" aria-label="Payment method"><button class="payment-option is-active" type="button" data-payment="cash">Cash</button><button class="payment-option" type="button" data-payment="card">Card</button><button class="payment-option" type="button" data-payment="ewallet">e-Wallet</button></div><button class="checkout-button" type="button" data-action="checkout" disabled>Complete sale <span>→</span></button><small class="offline-note"><b></b> Saved locally · sync when online</small></div>
+            </aside>
+          </section>
+
+          <section class="lower-grid">
+            <article class="panel activity-panel"><div class="panel-header"><div><span class="panel-kicker">LIVE ACTIVITY</span><h2>Recent orders</h2></div><button class="more-button" type="button" data-action="orders">View all <span>↗</span></button></div><div class="activity-list"><div class="activity-row"><span class="activity-avatar avatar-lime">#42</span><span><strong>#LD-1042 <small>Counter 01</small></strong><em>Oat latte × 2 · Toast × 1</em></span><b>NT$ 480</b><time>2m</time></div><div class="activity-row"><span class="activity-avatar avatar-blue">#41</span><span><strong>#LD-1041 <small>Pickup</small></strong><em>Seasonal bowl × 1</em></span><b>NT$ 260</b><time>8m</time></div><div class="activity-row"><span class="activity-avatar avatar-orange">#40</span><span><strong>#LD-1040 <small>Counter 01</small></strong><em>Filter coffee × 1</em></span><b>NT$ 190</b><time>16m</time></div></div></article>
+            <article class="panel signal-panel"><div class="panel-header"><div><span class="panel-kicker">SIGNAL BOARD</span><h2>Worth a look</h2></div><span class="signal-live"><b></b> Live</span></div><div class="signal-card"><span class="signal-icon signal-warning">!</span><span><strong data-signal>Low stock · 2 items</strong><small>Review inventory before the evening rush.</small></span><button type="button" data-action="catalog" aria-label="Open catalog">→</button></div><div class="signal-card"><span class="signal-icon signal-info">i</span><span><strong>Local snapshot ready</strong><small>Last saved just now on this device.</small></span><button type="button" data-action="snapshot" aria-label="View snapshot">→</button></div></article>
+          </section>
+
+          <footer class="page-footer"><span>POS Multi-Trade <b>v2.0 prototype</b></span><span>Local-first · Offline ready · <a href="#" data-action="status">System status ↗</a></span></footer>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" data-modal hidden>
+      <section class="switch-modal" role="dialog" aria-modal="true" aria-labelledby="switch-title"><button class="modal-close" type="button" data-action="close-modal" aria-label="關閉">×</button><span class="modal-kicker">CHANGE PROFILE</span><h2 id="switch-title">Switch your business profile?</h2><p>Current data stays safely on this device. We will create a local snapshot before switching context.</p><div class="snapshot-callout"><span>◈</span><span><strong>Snapshot before switch</strong><small>Your current catalog and orders remain available.</small></span><b>ON</b></div><div class="modal-actions"><button class="outline-button" type="button" data-action="close-modal">Keep current</button><button class="primary-button" type="button" data-action="confirm-switch">Switch profile <span>→</span></button></div></section>
+    </div>
+    <div class="toast-region" aria-live="polite" data-toast-region></div>
+
+    <script is:inline define:vars={{ profileData, products }}>
+      const state = { industry: 'fnb', pendingIndustry: 'fnb', cart: {}, payment: 'cash' };
+      const money = (value) => `NT$ ${value.toLocaleString('en-US')}`;
+      const $ = (selector, scope = document) => scope.querySelector(selector);
+      const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+      const toast = (message) => { const region = $('[data-toast-region]'); const node = document.createElement('div'); node.className = 'toast'; node.innerHTML = `<b>✓</b><span>${message}</span>`; region.append(node); window.setTimeout(() => node.remove(), 2800); };
+      const cartItems = () => Object.entries(state.cart).map(([id, quantity]) => ({ product: products.find((item) => item.id === id), quantity })).filter((item) => item.product);
+      const renderCart = () => {
+        const items = cartItems();
+        const count = items.reduce((total, item) => total + item.quantity, 0);
+        const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        $('[data-cart-count]').textContent = count;
+        $('[data-cart-subtotal]').textContent = money(total);
+        $('[data-cart-tax]').textContent = money(Math.round(total * 0.05));
+        $('[data-cart-total]').textContent = money(total);
+        $('[data-action="checkout"]').disabled = count === 0;
+        $('[data-cart-content]').innerHTML = items.length ? items.map(({ product, quantity }) => `<div class="cart-item"><span class="cart-item-mark tone-${product.tone}">${product.mark}</span><span class="cart-item-copy"><strong>${product.name}</strong><small>${product.english} · ${money(product.price)}</small></span><span class="quantity-control"><button type="button" data-quantity="${product.id}" data-delta="-1" aria-label="Decrease ${product.name}">−</button><b>${quantity}</b><button type="button" data-quantity="${product.id}" data-delta="1" aria-label="Increase ${product.name}">+</button></span><strong class="cart-item-total">${money(product.price * quantity)}</strong></div>`).join('') : `<div class="empty-cart"><span class="empty-cart-icon">＋</span><strong>Your cart is empty</strong><small>Select an item to start a new sale.</small></div>`;
+      };
+      const setIndustry = (id) => {
+        state.industry = id;
+        const profile = profileData[id];
+        document.querySelector('.app-shell').dataset.industry = id;
+        $('[data-profile-title]').textContent = profile.title;
+        $('[data-profile-description]').textContent = profile.description;
+        $('[data-profile-label]').textContent = `${id === 'fnb' ? 'F&B' : id === 'retail' ? 'Retail' : 'Services'} profile`;
+        $('[data-signal]').textContent = profile.signal;
+        $$('.profile-option').forEach((button) => button.classList.toggle('is-active', button.dataset.industry === id));
+        $$('.category-tab').forEach((tab, index) => { tab.textContent = profile.categories[index] || profile.categories[0]; tab.dataset.category = profile.categories[index] || profile.categories[0]; tab.classList.toggle('is-active', index === 0); });
+        toast(`${profile.title} profile ready · local snapshot preserved`);
+      };
+      const openSwitch = (id) => { state.pendingIndustry = id; $('[data-modal]').hidden = false; document.body.classList.add('modal-open'); $('[data-action="confirm-switch"]').focus(); };
+      const closeModal = () => { $('[data-modal]').hidden = true; document.body.classList.remove('modal-open'); };
+      $$('.profile-option').forEach((button) => button.addEventListener('click', () => { if (button.dataset.industry !== state.industry) openSwitch(button.dataset.industry); }));
+      $$('.nav-item').forEach((button) => button.addEventListener('click', () => { $$('.nav-item').forEach((item) => item.classList.remove('is-active')); button.classList.add('is-active'); $$('.nav-item').forEach((item) => item.removeAttribute('aria-current')); button.setAttribute('aria-current', 'page'); toast(`${button.querySelector('strong').textContent} · prototype view`); }));
+      $$('.product-card').forEach((button) => button.addEventListener('click', () => { const id = button.dataset.product; state.cart[id] = (state.cart[id] || 0) + 1; renderCart(); toast(`${button.querySelector('strong').textContent} added to cart`); }));
+      document.addEventListener('click', (event) => { const target = event.target.closest('[data-quantity]'); if (target) { const id = target.dataset.quantity; state.cart[id] = (state.cart[id] || 0) + Number(target.dataset.delta); if (state.cart[id] <= 0) delete state.cart[id]; renderCart(); } });
+      $$('[data-payment]').forEach((button) => button.addEventListener('click', () => { state.payment = button.dataset.payment; $$('[data-payment]').forEach((item) => item.classList.toggle('is-active', item === button)); toast(`${button.textContent} selected`); }));
+      $('[data-search]').addEventListener('input', (event) => { const query = event.target.value.toLowerCase(); $$('.product-card').forEach((card) => { card.hidden = !card.dataset.name.toLowerCase().includes(query); }); });
+      $$('[data-category]').forEach((tab) => tab.addEventListener('click', () => { $$('[data-category]').forEach((item) => item.classList.toggle('is-active', item === tab)); const category = tab.dataset.category; $$('.product-card').forEach((card) => { card.hidden = category !== '全部商品' && category !== '全部服務' && card.dataset.category !== category; }); }));
+      $$('[data-action]').forEach((button) => button.addEventListener('click', () => { const action = button.dataset.action; if (action === 'profile') openSwitch(state.industry === 'fnb' ? 'retail' : 'fnb'); if (action === 'close-modal') closeModal(); if (action === 'confirm-switch') { closeModal(); setIndustry(state.pendingIndustry); } if (action === 'clear-cart') { state.cart = {}; renderCart(); toast('Cart cleared'); } if (action === 'checkout') { state.cart = {}; renderCart(); toast('Sale completed · order saved locally'); } if (action === 'new-sale') { state.cart = {}; renderCart(); toast('New sale ready'); } if (['catalog', 'orders', 'snapshot', 'status', 'help', 'locale', 'workspace', 'search'].includes(action)) toast(action === 'search' ? 'Search is ready · press / anytime' : `${button.textContent.trim() || action} · prototype entry`); }));
+      document.addEventListener('keydown', (event) => { if (event.key === '/' && document.activeElement.tagName !== 'INPUT') { event.preventDefault(); $('[data-search]').focus(); } if (event.key === 'Escape') closeModal(); });
+      renderCart();
+    </script>
+  </body>
+</html>

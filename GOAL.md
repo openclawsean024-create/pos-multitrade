@@ -1,25 +1,26 @@
-# Goal — International POS React milestone
+# Goal — Astro international POS shell
 
 ## Objective
 
-Replace the legacy status-dashboard homepage with the approved international commerce-console POS experience in `PRD/UI-SPEC.md`, while preserving existing local-first POS domain behavior and the three industry profiles.
+Use the Astro prototype in `prototype/astro-pos/` as the next reviewable UI increment for POS Multi-Trade. Make the prototype feel productized and internationally usable, with a labeled command rail instead of an icon-only rail, while keeping the already released Next/React POS implementation unchanged.
 
 ## Acceptance criteria
 
-- [ ] AC-001: The default surface is a real POS workbench: command rail, workspace/context bar, profile switcher, catalogue, cart, payment selection, and operational signals.
-- [ ] AC-002: The UI supports fnb, retail, and service profile switching with a snapshot-before-switch interaction and preserves each profile's data boundary.
-- [ ] AC-003: Product cards add to cart, quantities update, totals recalculate, payment selection is visible, and checkout writes an order through the existing domain/repository layer.
-- [ ] AC-004: The UI is responsive at desktop, tablet, and mobile widths and has accessible labels, dialog semantics, keyboard escape/search behavior, and meaningful empty/error/loading states.
-- [ ] AC-005: English/Traditional Chinese microcopy and workspace/channel/locale/currency extension points are present without claiming unimplemented cloud, payment, tax, or hardware integrations.
-- [ ] AC-006: Existing unit/domain behavior remains intact; no tests are deleted or weakened.
-- [ ] AC-007: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, and the relevant browser E2E/smoke checks have evidence with exit codes.
+- [ ] AC-001: `prototype/astro-pos/` remains a self-contained Astro static app with reproducible install and `npm run build`.
+- [ ] AC-002: Desktop navigation clearly shows icon + Traditional Chinese label + English label for Counter, Orders, Catalog, Insights, and Settings; active state and accessible navigation semantics are present.
+- [ ] AC-003: Responsive behavior keeps navigation understandable on tablet/mobile and preserves usable catalog/cart layout without horizontal page overflow.
+- [ ] AC-004: The three profiles (fnb, retail, service) can be selected through the snapshot-before-switch dialog; current cart state is preserved and the selected profile copy changes.
+- [ ] AC-005: Catalog search/category filtering, add-to-cart, quantity changes, payment selection, and local checkout state work in the browser without pretending to call cloud, payment, tax, or hardware integrations.
+- [ ] AC-006: Accessibility and internationalization extension points remain visible: meaningful button names, dialog semantics, Traditional Chinese/English microcopy, workspace/channel/locale/currency context, and local-first/offline status.
+- [ ] AC-007: Existing formal React source, domain behavior, tests, and production deployment are not modified by this Astro increment.
+- [ ] AC-008: Deterministic Astro build and independent browser smoke evidence are recorded; no production deploy or Notion release sync is performed in this task.
 
 ## Constraints
 
-- Use the existing Next.js/React/TypeScript/Dexie/Zustand stack.
-- Do not add authentication, payments, cloud sync, DB migrations, secrets, or infrastructure deletion.
-- Keep `PRD/UI-SPEC.md` and `PRD/COMPETITOR-BENCHMARK.md` as the design boundary.
-- Do not deploy until QA and final review pass and the production target is confirmed.
+- Only modify `prototype/astro-pos/` and this goal/evidence when required for this task.
+- Do not migrate or rewrite `src/`, add auth, payments, cloud sync, DB migrations, secrets, or infrastructure deletion.
+- Do not add external CDN dependencies or claim seeded prototype data is live integration data.
+- Do not commit, push, deploy, or update the canonical Notion Project DB from the MiniMax run.
 
 ## Stop conditions
 
