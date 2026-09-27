@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "tier": "market",
+  "requirementId": "pos-multitrade-market-validation-v1",
+  "artifacts": {
+    "problemBrief": "DISCOVERY/problem-brief.md",
+    "marketResearch": "DISCOVERY/market-research.md",
+    "competitiveMap": "DISCOVERY/competitive-map.md",
+    "customerDiscovery": "DISCOVERY/customer-discovery.md",
+    "solutionScope": "PRD/SPEC.md",
+    "businessModel": "DISCOVERY/business-model.md",
+    "uiSpec": "PRD/UI-SPEC.md",
+    "htmlPrototype": "prototype/astro-pos/dist/index.html",
+    "usabilityValidation": "DISCOVERY/usability-validation.md",
+    "demandValidation": "DISCOVERY/demand-validation.md",
+    "riskReview": "DISCOVERY/risk-review.md",
+    "goNoGo": "DISCOVERY/go-no-go.md"
+  },
+  "research": {
+    "marketSourceCount": 4,
+    "competitorCount": 5,
+    "sourceStatus": "directional-research-complete"
+  },
+  "customerDiscovery": {
+    "interviewCount": 0,
+    "recurringPainCount": 4,
+    "willingnessToPayEvidence": false
+  },
+  "prototype": {
+    "usabilityTestCount": 5,
+    "evaluationMode": "proxy-scenario",
+    "criticalIssuesOpen": 0,
+    "seanApproved": true,
+    "seanApprovalEvidence": "Sean confirmed prototype approval in the current Codex conversation on 2026-09-28.",
+    "i18n": {
+      "testedLocales": ["zh-TW", "en-US", "ja-JP", "ar"],
+      "rtlTested": true,
+      "longTextStressTested": true,
+      "dateNumberCurrencyTested": true,
+      "fontFallbackTested": true,
+      "evidence": "DISCOVERY/international-accessibility-checks.md"
+    },
+    "accessibility": {
+      "wcagTarget": "2.2 AA",
+      "keyboardTested": true,
+      "focusVisibleTested": true,
+      "contrastTested": true,
+      "reducedMotionTested": true,
+      "evidence": "DISCOVERY/international-accessibility-checks.md"
+    }
+  },
+  "demand": {
+    "qualifiedSignalCount": 10,
+    "committedSignalCount": 0,
+    "commercialValidationStatus": "discovery-only; committed demand is optional by current policy",
+    "community": {
+      "sourceCount": 6,
+      "threadCount": 10,
+      "uniqueAuthorCount": 10,
+      "status": "validated-public-evidence; no purchase commitment"
+    }
+  },
+  "business": {
+    "pricingHypothesis": true,
+    "unitEconomicsAssumptions": true
+  },
+  "risk": {
+    "status": "pass",
+    "humanReviewRequired": false,
+    "evidence": "DISCOVERY/risk-review.md"
+  },
+  "goNoGo": {
+    "decision": "go",
+    "score": 78,
+    "decidedAt": "2026-09-28",
+    "decisionEvidence": "DISCOVERY/go-no-go.md",
+    "scope": "discovery-only prototype hardening and implementation"
+  }
+}
