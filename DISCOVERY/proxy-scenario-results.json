@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "evaluationMode": "proxy-scenario",
+  "authorizedBy": "Sean, current Codex conversation",
+  "evaluatedAt": "2026-09-28",
+  "prototypeUrl": "http://127.0.0.1:4321/",
+  "scenarioCount": 5,
+  "criticalIssuesOpen": 0,
+  "scenarios": [
+    {"id": "cashier", "result": "pass", "evidence": "AX tree plus cart count transition 0 -> 1; checkout control enabled"},
+    {"id": "retail-operator", "result": "pass", "evidence": "Retail profile and catalog switching exposed in prototype source and accessibility tree"},
+    {"id": "service-operator", "result": "pass", "evidence": "Services profile and service/package/add-on catalog exposed in prototype source"},
+    {"id": "store-manager", "result": "pass", "evidence": "Low-stock and local snapshot signals exposed in accessibility tree"},
+    {"id": "international-local-first", "result": "partial", "evidence": "zh-Hant, NT$, Local-first and saved-on-device copy visible; RTL and stress checks remain open"}
+  ],
+  "limitations": [
+    "Proxy walkthroughs are not interviews and do not prove customer demand.",
+    "RTL, long-text, date/number/currency, font-fallback, reduced-motion and contrast runtime checks remain pending."
+  ]
+}

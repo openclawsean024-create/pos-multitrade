@@ -1,0 +1,670 @@
+---
+import '../../src/styles/console.css';
+
+const industries = [
+  { id: 'fnb', label: '餐飲', english: 'Food service', eyebrow: 'F&B', accent: '#e7ff57', nav: '收銀台' },
+  { id: 'retail', label: '零售', english: 'Retail', eyebrow: 'RETAIL', accent: '#88b7ff', nav: '門市' },
+  { id: 'service', label: '服務', english: 'Services', eyebrow: 'SERVICES', accent: '#ffb58d', nav: '工作室' },
+];
+
+const navItems = [
+  {
+    id: 'counter',
+    labelZh: '收銀台',
+    labelEn: 'Counter',
+    shortcut: '⌘1',
+    badge: '',
+    icon: 'M4 5.5h6v6H4zm10 0h6v6h-6zM4 15.5h6v4H4zm10 0h6v4h-6z',
+  },
+  {
+    id: 'orders',
+    labelZh: '訂單',
+    labelEn: 'Orders',
+    shortcut: '',
+    badge: '4',
+    icon: 'M6 4.5h12v15H6zM9 8h6M9 12h6M9 16h3',
+  },
+  {
+    id: 'catalog',
+    labelZh: '商品',
+    labelEn: 'Catalog',
+    shortcut: '⌘3',
+    badge: '',
+    icon: 'M5 6.5h14v3H5zm0 5h6v6H5zm9 0h5v6h-5z',
+  },
+  {
+    id: 'insights',
+    labelZh: '報表',
+    labelEn: 'Insights',
+    shortcut: '⌘4',
+    badge: '',
+    icon: 'M5 19V11M12 19V5M19 19v-8',
+  },
+  {
+    id: 'settings',
+    labelZh: '設定',
+    labelEn: 'Settings',
+    shortcut: '⌘,',
+    badge: '',
+    icon: 'M9.5 4.5h5l.7 2.1 2 .9 2-.8 2.5 4.3-1.7 1.5v2.3l1.7 1.5-2.5 4.3-2-.8-2 .9-.7 2.1h-5l-.7-2.1-2-.9-2 .8-2.5-4.3 1.7-1.5v-2.3L2.3 11l2.5-4.3 2 .8 2-.9zM12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z',
+  },
+];
+
+const products = [
+  { id: 'latte', code: 'DR-001', name: '燕麥拿鐵', english: 'Oat latte', category: 'Coffee', industry: 'fnb', price: 150, stock: 18, tone: 'lime', mark: 'OL' },
+  { id: 'tea', code: 'DR-002', name: '冷泡茶', english: 'Cold brew tea', category: 'Tea', industry: 'fnb', price: 120, stock: 26, tone: 'blue', mark: 'CB' },
+  { id: 'toast', code: 'FD-021', name: '酸種吐司', english: 'Sourdough toast', category: 'Food', industry: 'fnb', price: 180, stock: 7, tone: 'orange', mark: 'ST' },
+  { id: 'bowl', code: 'FD-024', name: '季節沙拉碗', english: 'Seasonal bowl', category: 'Food', industry: 'fnb', price: 260, stock: 5, tone: 'violet', mark: 'SB' },
+  { id: 'cookie', code: 'FD-030', name: '黑糖餅乾', english: 'Brown sugar cookie', category: 'Food', industry: 'fnb', price: 90, stock: 32, tone: 'rose', mark: 'BS' },
+  { id: 'filter', code: 'DR-006', name: '單品濾泡', english: 'Filter coffee', category: 'Coffee', industry: 'fnb', price: 190, stock: 11, tone: 'ink', mark: 'FC' },
+  { id: 'tee', code: 'RT-101', name: '經典素 Tee', english: 'Classic tee', category: 'Apparel', industry: 'retail', price: 480, stock: 24, tone: 'lime', mark: 'CT' },
+  { id: 'mug', code: 'RT-118', name: '陶瓷馬克杯', english: 'Ceramic mug', category: 'Home', industry: 'retail', price: 220, stock: 12, tone: 'blue', mark: 'CM' },
+  { id: 'candle', code: 'RT-204', name: '大豆蠟燭', english: 'Soy candle', category: 'Home', industry: 'retail', price: 360, stock: 6, tone: 'orange', mark: 'SC' },
+  { id: 'notebook', code: 'RT-322', name: '再生紙筆記本', english: 'Recycled notebook', category: 'New', industry: 'retail', price: 180, stock: 30, tone: 'violet', mark: 'NB' },
+  { id: 'cut', code: 'SV-201', name: '剪髮造型', english: 'Cut & style', category: 'Session', industry: 'service', price: 800, stock: 99, tone: 'lime', mark: 'CS' },
+  { id: 'color', code: 'SV-204', name: '染髮護理', english: 'Color care', category: 'Session', industry: 'service', price: 1800, stock: 99, tone: 'blue', mark: 'CC' },
+  { id: 'package', code: 'SV-308', name: '季保養包套', english: 'Seasonal package', category: 'Package', industry: 'service', price: 3600, stock: 99, tone: 'orange', mark: 'SP' },
+  { id: 'addOn', code: 'SV-401', name: '頭皮 SPA 加購', english: 'Scalp SPA add-on', category: 'Add-on', industry: 'service', price: 480, stock: 99, tone: 'violet', mark: 'SA' },
+];
+
+const profileData = {
+  fnb: {
+    title: '餐飲營運',
+    titleEn: 'Food service operations',
+    description: '尖峰時段快速點單與加購',
+    descriptionEn: 'Fast order taking and add-ons during peak hours',
+    categories: [
+      { key: 'all', label: '全部商品', labelEn: 'All items' },
+      { key: 'Coffee', label: '咖啡', labelEn: 'Coffee' },
+      { key: 'Tea', label: '茶飲', labelEn: 'Tea' },
+      { key: 'Food', label: '餐點', labelEn: 'Food' },
+    ],
+    signal: '2 個品項庫存偏低',
+    signalEn: '2 items low in stock',
+    activity: '桌邊加購 · 2 分鐘前',
+    activityEn: 'Table add-on · 2 min ago',
+  },
+  retail: {
+    title: '零售營運',
+    titleEn: 'Retail operations',
+    description: '商品、庫存與全通路銷售',
+    descriptionEn: 'Merchandise, inventory, and omnichannel sales',
+    categories: [
+      { key: 'all', label: '全部商品', labelEn: 'All items' },
+      { key: 'New', label: '新品', labelEn: 'New arrivals' },
+      { key: 'Apparel', label: '服飾', labelEn: 'Apparel' },
+      { key: 'Home', label: '居家', labelEn: 'Home' },
+    ],
+    signal: '4 個品項庫存偏低',
+    signalEn: '4 items low in stock',
+    activity: '門市銷售 · 6 分鐘前',
+    activityEn: 'Storefront sale · 6 min ago',
+  },
+  service: {
+    title: '服務營運',
+    titleEn: 'Services operations',
+    description: '預約、服務項目與技師分派',
+    descriptionEn: 'Bookings, services, and technician dispatch',
+    categories: [
+      { key: 'all', label: '全部服務', labelEn: 'All services' },
+      { key: 'Session', label: '單次服務', labelEn: 'Session' },
+      { key: 'Package', label: '方案套組', labelEn: 'Package' },
+      { key: 'Add-on', label: '加購項目', labelEn: 'Add-on' },
+    ],
+    signal: '今日 3 個待確認預約',
+    signalEn: '3 bookings to confirm today',
+    activity: '服務完成 · 11 分鐘前',
+    activityEn: 'Service completed · 11 min ago',
+  },
+};
+
+const localeData = {
+  'zh-TW': { label: '繁體中文', code: 'zh-Hant', currency: 'TWD', currencyLabel: 'NT$', dir: 'ltr' },
+  'en-US': { label: 'English', code: 'en-US', currency: 'USD', currencyLabel: 'US$', dir: 'ltr' },
+  'ja-JP': { label: '日本語', code: 'ja-JP', currency: 'JPY', currencyLabel: '¥', dir: 'ltr' },
+  ar: { label: 'العربية', code: 'ar', currency: 'AED', currencyLabel: 'د.إ', dir: 'rtl' },
+};
+---
+
+<!doctype html>
+<html lang="zh-Hant" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="POS Multi-Trade international commerce console prototype" />
+    <title>POS Multi-Trade · Commerce Console</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#counter-panel">跳至主要內容 / Skip to main content</a>
+    <div class="app-shell" data-industry="fnb">
+      <aside class="rail" aria-label="主要功能導覽 / Primary navigation">
+        <div class="rail-top">
+          <a class="brand" href="/" aria-label="POS Multi-Trade 首頁 / Home">
+            <span class="brand-mark" aria-hidden="true">P</span>
+            <span class="brand-copy"><strong>POS</strong><small>MULTI-TRADE</small></span>
+          </a>
+
+          <button class="workspace-switch" type="button" data-action="workspace" aria-label="切換工作區 / Switch workspace">
+            <span class="workspace-avatar" aria-hidden="true">LD</span>
+            <span class="workspace-copy"><strong>Little Day</strong><small>Taipei · Counter 01</small></span>
+            <span class="workspace-chevron" aria-hidden="true">⌄</span>
+          </button>
+
+          <div class="rail-heading" id="rail-heading-operate"><span>Operate</span><span aria-hidden="true">⌘</span></div>
+          <nav class="primary-nav" aria-labelledby="rail-heading-operate">
+            {navItems.filter((item) => item.id !== 'settings').map((item) => (
+              <button class:list={['nav-item', item.id === 'counter' && 'is-active']} type="button" data-nav={item.id} aria-current={item.id === 'counter' ? 'page' : undefined}>
+                <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={item.icon} /></svg></span>
+                <span class="nav-copy"><strong>{item.labelZh}</strong><small>{item.labelEn}</small></span>
+                {item.shortcut ? <kbd aria-hidden="true">{item.shortcut}</kbd> : null}
+                {item.badge ? <span class="nav-badge" aria-label={`${item.badge} 筆待處理`}>{item.badge}</span> : null}
+              </button>
+            ))}
+          </nav>
+
+          <div class="rail-heading rail-heading-manage" id="rail-heading-manage"><span>Manage</span><span aria-hidden="true">+</span></div>
+          <nav class="primary-nav" aria-labelledby="rail-heading-manage">
+            {navItems.filter((item) => item.id === 'settings').map((item) => (
+              <button class="nav-item" type="button" data-nav={item.id}>
+                <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={item.icon} /></svg></span>
+                <span class="nav-copy"><strong>{item.labelZh}</strong><small>{item.labelEn}</small></span>
+                {item.shortcut ? <kbd aria-hidden="true">{item.shortcut}</kbd> : null}
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        <div class="rail-bottom">
+          <div class="profile-mini">
+            <span class="profile-dot" aria-hidden="true"></span><span><strong data-profile-label>F&B profile</strong><small>Local-first workspace</small></span>
+          </div>
+          <button class="rail-user" type="button" data-action="profile" aria-label="開啟行業 profile 切換 / Switch business profile">
+            <span class="user-avatar" aria-hidden="true">SL</span><span><strong>Sean Li</strong><small>Owner</small></span><span class="user-more" aria-hidden="true">···</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Commerce OS</span><i aria-hidden="true">/</i><strong>Counter</strong><span class="live-pill"><b aria-hidden="true"></b> LOCAL MODE</span></div>
+          <div class="top-actions">
+            <button class="icon-action" type="button" data-action="search" aria-label="搜尋商品 / Search items (press /)"><span aria-hidden="true">⌕</span><kbd aria-hidden="true">/</kbd></button>
+            <button class="text-action" type="button" data-action="locale" aria-label="切換語言 / Switch language"><span data-locale-action>EN</span> <span aria-hidden="true">⌄</span></button>
+            <button class="text-action" type="button" data-action="channel" aria-label="切換通路 / Switch sales channel">Counter 01 <span aria-hidden="true">⌄</span></button>
+            <button class="text-action" type="button" data-action="help">Help</button>
+            <button class="user-chip" type="button" data-action="profile" aria-label="切換行業 profile / Switch business profile"><span class="user-avatar small" aria-hidden="true">SL</span><span>Sean</span><span aria-hidden="true">⌄</span></button>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="context-bar" aria-label="Workspace context">
+            <div class="context-pill">
+              <span class="eyebrow">WORKSPACE</span>
+              <strong>Little Day</strong>
+              <small>Taipei · Counter 01</small>
+            </div>
+            <div class="context-pill">
+              <span class="eyebrow">CHANNEL</span>
+              <strong data-context-channel>Counter 01</strong>
+              <small data-context-channel-en>In-store · POS lane</small>
+            </div>
+            <div class="context-pill">
+              <span class="eyebrow">LOCALE</span>
+              <strong data-context-locale>繁體中文</strong>
+              <small data-context-locale-en>zh-Hant · NT$</small>
+            </div>
+            <div class="context-pill context-status">
+              <span class="eyebrow">STATUS</span>
+              <strong><span class="status-dot" aria-hidden="true"></span> Prototype preview</strong>
+              <small data-context-status-en>In-memory only · reload clears the cart</small>
+            </div>
+          </section>
+
+          <section class="page-intro">
+            <div><p class="eyebrow">TODAY · SAT 27 SEP 2026</p><h1>Good morning, Sean.</h1><p class="intro-copy">Run the floor with a clear view of every sale, item and signal.</p></div>
+            <div class="intro-actions"><button class="outline-button" type="button" data-action="snapshot" aria-label="查看本機快照 / View local snapshot">View snapshots <span aria-hidden="true">↗</span></button><button class="primary-button" type="button" data-action="new-sale" aria-label="開始新交易 / Start new sale">+ New sale</button></div>
+          </section>
+
+          <section class="profile-strip" aria-label="Business profile">
+            <div class="profile-strip-label"><span class="eyebrow">BUSINESS PROFILE</span><strong data-profile-title>餐飲營運</strong><small data-profile-description>尖峰時段快速點單與加購</small></div>
+            <div class="profile-switcher" role="radiogroup" aria-label="行業 profile 選擇 / Select business profile">
+              {industries.map((industry) => (
+                <button class:list={['profile-option', industry.id === 'fnb' && 'is-active']} type="button" role="radio" aria-checked={industry.id === 'fnb' ? 'true' : 'false'} data-industry={industry.id} style={`--option-accent:${industry.accent}`}>
+                  <span class="profile-option-mark" aria-hidden="true">{industry.eyebrow.slice(0, 2)}</span><span><strong>{industry.label}</strong><small>{industry.english}</small></span><span class="profile-check" aria-hidden="true">✓</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section class="metrics-grid" aria-label="Today at a glance">
+            <article class="metric-card metric-dark"><div><span class="metric-label">NET SALES <i>Today</i></span><strong data-metric-net>NT$ 24,680</strong><small><b>↑ 18.4%</b> vs last Saturday</small></div><span class="metric-glyph" aria-hidden="true">↗</span></article>
+            <article class="metric-card"><div><span class="metric-label">ORDERS <i>Today</i></span><strong data-metric-orders>42</strong><small><b class="neutral">+6</b> from yesterday</small></div><div class="sparkline sparkline-blue" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></article>
+            <article class="metric-card"><div><span class="metric-label">AVG. TICKET <i>Today</i></span><strong>NT$ 588</strong><small><b class="warm">↑ 4.2%</b> vs last Saturday</small></div><div class="metric-glyph light" aria-hidden="true">◎</div></article>
+            <article class="metric-card metric-alert"><div><span class="metric-label">ATTENTION <i>Signals</i></span><strong>02</strong><small><b class="alert-text">Needs a look</b> low stock items</small></div><div class="metric-glyph alert" aria-hidden="true">!</div></article>
+          </section>
+
+          <section class="work-grid">
+            <article class="panel catalog-panel" data-panel="counter" id="counter-panel">
+              <div class="panel-header"><div><span class="panel-kicker">QUICK SALE</span><h2>Catalog <span aria-hidden="true">·</span> <small data-products-count>6 items</small></h2></div><button class="more-button" type="button" data-action="catalog" aria-label="開啟完整商品目錄 / Open full catalog">Open catalog <span aria-hidden="true">↗</span></button></div>
+              <div class="catalog-toolbar">
+                <div class="category-tabs" role="tablist" aria-label="商品分類 / Catalog category" data-category-tabs>
+                  {profileData.fnb.categories.map((category, index) => (
+                    <button class:list={['category-tab', index === 0 && 'is-active']} type="button" role="tab" aria-selected={index === 0 ? 'true' : 'false'} data-category-tab={category.key} data-category-label={category.label} data-category-label-en={category.labelEn}>{category.label}</button>
+                  ))}
+                </div>
+                <label class="catalog-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search items / 搜尋商品" aria-label="搜尋商品 / Search catalog" data-search /></label>
+              </div>
+              <div class="catalog-status" role="status" aria-live="polite" data-catalog-status></div>
+              <div class="product-grid" data-product-grid>
+                {products.map((product) => (
+                  <button class="product-card" type="button" data-product={product.id} data-product-industry={product.industry} data-product-category={product.category} data-name={`${product.name} ${product.english}`} aria-label={`加入 ${product.name} (${product.english}) 至購物車 / Add ${product.english} to cart`}>
+                    <span class:list={['product-mark', `tone-${product.tone}`]} aria-hidden="true">{product.mark}</span><span class="product-meta"><small>{product.code} · {product.category}</small><strong>{product.name}</strong><em>{product.english}</em></span><span class="product-footer"><b data-price-value={product.price}>NT$ {product.price.toLocaleString('en-US')}</b><small class:list={[product.stock <= 7 && 'stock-low']}>{product.stock} in stock</small></span><span class="add-mark" aria-hidden="true">+</span>
+                  </button>
+                ))}
+              </div>
+            </article>
+
+            <aside class="panel cart-panel" aria-label="Current cart / 目前購物車">
+              <div class="panel-header cart-header"><div><span class="panel-kicker">CURRENT SALE</span><h2>Cart <span class="cart-count" data-cart-count aria-label="商品件數 / item count">0</span></h2></div><button class="more-button" type="button" data-action="clear-cart" aria-label="清空購物車 / Clear cart">Clear</button></div>
+              <div class="cart-content" data-cart-content><div class="empty-cart"><span class="empty-cart-icon" aria-hidden="true">＋</span><strong>Your cart is empty</strong><small>Select an item to start a new sale.</small></div></div>
+              <div class="cart-summary"><div><span>Subtotal</span><strong data-cart-subtotal>NT$ 0</strong></div><div><span>Tax <small>Sample 5% · UI only</small></span><strong data-cart-tax>NT$ 0</strong></div><div class="total-row"><span>Total</span><strong data-cart-total>NT$ 0</strong></div><div class="payment-row" role="radiogroup" aria-label="付款方式 / Payment method"><button class="payment-option is-active" type="button" role="radio" aria-checked="true" data-payment="cash">Cash</button><button class="payment-option" type="button" role="radio" aria-checked="false" data-payment="card">Card</button><button class="payment-option" type="button" role="radio" aria-checked="false" data-payment="ewallet">e-Wallet</button></div><button class="checkout-button" type="button" data-action="checkout" disabled aria-label="完成結帳 / Complete sale">Complete sale <span aria-hidden="true">→</span></button><small class="offline-note"><b aria-hidden="true"></b> <span data-offline-note>In-memory only · reload clears cart · no payment is processed</span></small></div>
+            </aside>
+          </section>
+
+          <section class="lower-grid">
+            <article class="panel activity-panel"><div class="panel-header"><div><span class="panel-kicker">LIVE ACTIVITY</span><h2>Recent orders</h2></div><button class="more-button" type="button" data-action="orders" aria-label="查看所有訂單 / View all orders">View all <span aria-hidden="true">↗</span></button></div><div class="activity-list" data-activity-list aria-live="polite"><div class="activity-row"><span class="activity-avatar avatar-lime" aria-hidden="true">#42</span><span><strong>#LD-1042 <small>Counter 01</small></strong><em>Oat latte × 2 · Toast × 1</em></span><b>NT$ 480</b><time>2m</time></div><div class="activity-row"><span class="activity-avatar avatar-blue" aria-hidden="true">#41</span><span><strong>#LD-1041 <small>Pickup</small></strong><em>Seasonal bowl × 1</em></span><b>NT$ 260</b><time>8m</time></div><div class="activity-row"><span class="activity-avatar avatar-orange" aria-hidden="true">#40</span><span><strong>#LD-1040 <small>Counter 01</small></strong><em>Filter coffee × 1</em></span><b>NT$ 190</b><time>16m</time></div></div></article>
+            <article class="panel signal-panel"><div class="panel-header"><div><span class="panel-kicker">SIGNAL BOARD</span><h2>Worth a look</h2></div><span class="signal-live"><b aria-hidden="true"></b> Live</span></div><div class="signal-card"><span class="signal-icon signal-warning" aria-hidden="true">!</span><span><strong data-signal>Low stock · 2 items</strong><small>Review inventory before the evening rush.</small></span><button type="button" data-action="catalog" aria-label="開啟商品目錄 / Open catalog">→</button></div><div class="signal-card"><span class="signal-icon signal-info" aria-hidden="true">i</span><span><strong>Local snapshot ready</strong><small>Last saved just now on this device.</small></span><button type="button" data-action="snapshot" aria-label="查看 snapshot / View snapshot">→</button></div></article>
+          </section>
+
+          <footer class="page-footer"><span>POS Multi-Trade <b>v2.0 prototype</b></span><span>Local-first · Offline ready · <a href="#" data-action="status">System status ↗</a></span></footer>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" data-modal hidden>
+      <section class="switch-modal" role="dialog" aria-modal="true" aria-labelledby="switch-title" aria-describedby="switch-description">
+        <button class="modal-close" type="button" data-action="close-modal" aria-label="關閉對話框 / Close dialog">×</button>
+        <span class="modal-kicker">CHANGE PROFILE</span>
+        <h2 id="switch-title">Switch your business profile?</h2>
+        <p id="switch-description" data-switch-description>Current data stays safely on this device. We will create a local snapshot before switching context.</p>
+        <div class="snapshot-callout"><span aria-hidden="true">◈</span><span><strong>Snapshot before switch</strong><small>Your current catalog and orders remain available.</small></span><b>ON</b></div>
+        <div class="modal-actions">
+          <button class="outline-button" type="button" data-action="close-modal">Keep current</button>
+          <button class="primary-button" type="button" data-action="confirm-switch">Switch profile <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+    </div>
+    <div class="toast-region" aria-live="polite" aria-atomic="false" data-toast-region></div>
+
+    <script is:inline define:vars={{ profileData, products, localeData }}>
+      const state = {
+        industry: 'fnb',
+        locale: 'zh-TW',
+        pendingIndustry: 'fnb',
+        cart: {},
+        payment: 'cash',
+        orderCounter: 42,
+        search: '',
+        category: 'all',
+        lastFocused: null,
+      };
+      const snapshots = {};
+      const localeInfo = () => localeData[state.locale] || localeData['zh-TW'];
+      const money = (value) => new Intl.NumberFormat(localeInfo().code, {
+        style: 'currency',
+        currency: localeInfo().currency,
+        maximumFractionDigits: 0,
+      }).format(value);
+      const $ = (selector, scope = document) => scope.querySelector(selector);
+      const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+      const safeText = (value) => String(value ?? '').replace(/[<>&"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[ch]));
+      const toast = (message) => {
+        const region = $('[data-toast-region]');
+        if (!region) return;
+        const node = document.createElement('div');
+        node.className = 'toast';
+        node.setAttribute('role', 'status');
+        node.innerHTML = `<b aria-hidden="true">✓</b><span>${safeText(message)}</span>`;
+        region.append(node);
+        window.setTimeout(() => { if (node.parentNode) node.parentNode.removeChild(node); }, 2800);
+      };
+
+      const visibleProducts = () => products.filter((item) => {
+        if (item.industry !== state.industry) return false;
+        if (state.category !== 'all' && item.category !== state.category) return false;
+        if (state.search) {
+          const needle = state.search.toLowerCase();
+          const hay = `${item.name} ${item.english} ${item.code}`.toLowerCase();
+          if (!hay.includes(needle)) return false;
+        }
+        return true;
+      });
+
+      const applyCatalogFilters = () => {
+        const matches = visibleProducts();
+        $$('.product-card').forEach((card) => {
+          const id = card.dataset.product;
+          const visible = matches.some((item) => item.id === id);
+          card.hidden = !visible;
+        });
+        const total = products.filter((item) => item.industry === state.industry).length;
+        const counter = $('[data-products-count]');
+        if (counter) counter.textContent = `${matches.length} of ${total} items`;
+        const status = $('[data-catalog-status]');
+        if (status) {
+          if (matches.length === 0) {
+            const profile = profileData[state.industry];
+            status.textContent = `No items match the current filter. / 沒有符合條件的商品（${profile.title}）`;
+          } else {
+            status.textContent = '';
+          }
+        }
+      };
+
+      const cartItems = () => Object.entries(state.cart)
+        .map(([id, quantity]) => ({ product: products.find((item) => item.id === id), quantity }))
+        .filter((entry) => entry.product);
+
+      const renderCart = () => {
+        const items = cartItems();
+        const count = items.reduce((total, entry) => total + entry.quantity, 0);
+        const total = items.reduce((sum, entry) => sum + entry.product.price * entry.quantity, 0);
+        const tax = Math.round(total * 0.05);
+        $('[data-cart-count]').textContent = count;
+        $('[data-cart-subtotal]').textContent = money(total);
+        $('[data-cart-tax]').textContent = money(tax);
+        $('[data-cart-total]').textContent = money(total);
+        const checkout = $('[data-action="checkout"]');
+        if (checkout) checkout.disabled = items.length === 0;
+        const container = $('[data-cart-content]');
+        if (!container) return;
+        if (items.length === 0) {
+          container.innerHTML = '<div class="empty-cart"><span class="empty-cart-icon" aria-hidden="true">＋</span><strong>Your cart is empty</strong><small>Select an item to start a new sale.</small></div>';
+          return;
+        }
+        container.innerHTML = items.map(({ product, quantity }) => (
+          `<div class="cart-item">` +
+            `<span class="cart-item-mark tone-${product.tone}" aria-hidden="true">${safeText(product.mark)}</span>` +
+            `<span class="cart-item-copy"><strong>${safeText(product.name)}</strong><small>${safeText(product.english)} · ${money(product.price)}</small></span>` +
+            `<span class="quantity-control">` +
+              `<button type="button" class="qty-button" data-quantity="${safeText(product.id)}" data-delta="-1" aria-label="減少 ${safeText(product.name)} 數量 / Decrease ${safeText(product.english)}">−</button>` +
+              `<b aria-label="數量 ${quantity}">${quantity}</b>` +
+              `<button type="button" class="qty-button" data-quantity="${safeText(product.id)}" data-delta="1" aria-label="增加 ${safeText(product.name)} 數量 / Increase ${safeText(product.english)}">+</button>` +
+            `</span>` +
+            `<strong class="cart-item-total">${money(product.price * quantity)}</strong>` +
+          `</div>`
+        )).join('');
+      };
+
+      const renderCategoryTabs = () => {
+        const profile = profileData[state.industry];
+        const tabs = $$('[data-category-tabs] [data-category-tab]');
+        tabs.forEach((tab, index) => {
+          const cat = profile.categories[index] || profile.categories[0];
+          tab.dataset.categoryTab = cat.key;
+          tab.dataset.categoryLabel = cat.label;
+          tab.dataset.categoryLabelEn = cat.labelEn;
+          tab.textContent = cat.label;
+          tab.setAttribute('aria-label', `${cat.label} / ${cat.labelEn}`);
+          const active = cat.key === state.category;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      };
+
+      const applyLocale = () => {
+        const info = localeInfo();
+        document.documentElement.lang = info.code;
+        document.documentElement.dir = info.dir;
+        const label = $('[data-context-locale]');
+        const code = $('[data-context-locale-en]');
+        const action = $('[data-locale-action]');
+        if (label) label.textContent = info.label;
+        if (code) code.textContent = `${info.code} · ${info.currencyLabel}`;
+        if (action) action.textContent = info.code === 'zh-Hant' ? 'EN' : info.code;
+        $$('[data-price-value]').forEach((node) => {
+          node.textContent = money(Number(node.dataset.priceValue));
+        });
+        renderCart();
+      };
+
+      const takeSnapshot = (id) => {
+        snapshots[id] = {
+          cart: { ...state.cart },
+          payment: state.payment,
+          category: state.category,
+          search: state.search,
+          savedAt: new Date().toISOString(),
+        };
+      };
+
+      const restoreSnapshot = (id) => {
+        const snap = snapshots[id];
+        if (!snap) return false;
+        state.cart = { ...snap.cart };
+        state.payment = snap.payment || 'cash';
+        state.category = snap.category || 'all';
+        state.search = snap.search || '';
+        const searchInput = $('[data-search]');
+        if (searchInput) searchInput.value = state.search;
+        return true;
+      };
+
+      const setIndustry = (id) => {
+        const previous = state.industry;
+        takeSnapshot(previous);
+        state.industry = id;
+        state.category = 'all';
+        state.search = '';
+        const searchInput = $('[data-search]');
+        if (searchInput) searchInput.value = '';
+        const profile = profileData[id];
+        const shell = document.querySelector('.app-shell');
+        if (shell) shell.dataset.industry = id;
+        $('[data-profile-title]').textContent = profile.title;
+        $('[data-profile-description]').textContent = profile.description;
+        $('[data-profile-label]').textContent = `${id === 'fnb' ? 'F&B' : id === 'retail' ? 'Retail' : 'Services'} profile`;
+        $('[data-signal]').textContent = profile.signal;
+        $$('.profile-option').forEach((button) => {
+          const active = button.dataset.industry === id;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-checked', active ? 'true' : 'false');
+        });
+        renderCategoryTabs();
+        applyCatalogFilters();
+        renderCart();
+        toast(`${profile.title} profile ready · local snapshot preserved · ${profile.activity}`);
+      };
+
+      const updateSwitchDescription = () => {
+        const profile = profileData[state.pendingIndustry];
+        if (!profile) return;
+        const target = $('[data-switch-description]');
+        if (target) {
+          target.textContent = `切換到「${profile.title}」(${profile.titleEn})。Current data stays safely on this device. 我們會在切換前為目前 ${profileData[state.industry].title} 建立 local snapshot。`;
+        }
+      };
+
+      const openSwitch = (id) => {
+        state.pendingIndustry = id;
+        state.lastFocused = document.activeElement;
+        updateSwitchDescription();
+        const modal = $('[data-modal]');
+        if (modal) modal.hidden = false;
+        document.body.classList.add('modal-open');
+        const confirm = $('[data-action="confirm-switch"]');
+        if (confirm) window.requestAnimationFrame(() => confirm.focus());
+      };
+
+      const closeModal = () => {
+        const modal = $('[data-modal]');
+        if (modal) modal.hidden = true;
+        document.body.classList.remove('modal-open');
+        if (state.lastFocused && typeof state.lastFocused.focus === 'function') {
+          state.lastFocused.focus();
+        }
+        state.lastFocused = null;
+      };
+
+      $$('.profile-option').forEach((button) => button.addEventListener('click', () => {
+        if (button.dataset.industry !== state.industry) openSwitch(button.dataset.industry);
+      }));
+
+      $$('.nav-item').forEach((button) => button.addEventListener('click', () => {
+        $$('.nav-item').forEach((item) => { item.classList.remove('is-active'); item.removeAttribute('aria-current'); });
+        button.classList.add('is-active');
+        button.setAttribute('aria-current', 'page');
+        const copy = button.querySelector('.nav-copy');
+        const zh = copy ? copy.querySelector('strong').textContent : '';
+        const en = copy ? copy.querySelector('small').textContent : '';
+        toast(`${zh} · ${en} · prototype view`);
+      }));
+
+      $$('.product-card').forEach((button) => button.addEventListener('click', () => {
+        const id = button.dataset.product;
+        state.cart[id] = (state.cart[id] || 0) + 1;
+        renderCart();
+        const name = button.querySelector('strong').textContent;
+        toast(`${name} added to cart · 已加入購物車`);
+      }));
+
+      document.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-quantity]');
+        if (!target) return;
+        const id = target.dataset.quantity;
+        const current = state.cart[id] || 0;
+        const next = current + Number(target.dataset.delta);
+        if (next <= 0) delete state.cart[id];
+        else state.cart[id] = next;
+        renderCart();
+      });
+
+      $$('[data-payment]').forEach((button) => button.addEventListener('click', () => {
+        state.payment = button.dataset.payment;
+        $$('[data-payment]').forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-checked', active ? 'true' : 'false');
+        });
+        toast(`${button.textContent.trim()} selected · 已選擇 ${button.textContent.trim()}`);
+      }));
+
+      $$('[data-category-tab]').forEach((tab) => tab.addEventListener('click', () => {
+        const key = tab.dataset.categoryTab;
+        state.category = key;
+        $$('[data-category-tab]').forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        applyCatalogFilters();
+      }));
+
+      const searchInput = $('[data-search]');
+      if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+          state.search = event.target.value.trim();
+          applyCatalogFilters();
+        });
+      }
+
+      const recordOrder = (items, total) => {
+        state.orderCounter += 1;
+        const id = `#LD-${1043 + state.orderCounter - 43}`;
+        const list = $('[data-activity-list]');
+        if (list) {
+          const summary = items.map((entry) => `${entry.product.english} × ${entry.quantity}`).join(' · ');
+          const toneClass = ['lime', 'blue', 'orange', 'violet'][state.orderCounter % 4];
+          const row = document.createElement('div');
+          row.className = 'activity-row';
+          row.innerHTML = (
+            `<span class="activity-avatar avatar-${toneClass}" aria-hidden="true">#${state.orderCounter}</span>` +
+            `<span><strong>${safeText(id)} <small>Counter 01</small></strong><em>${safeText(summary)}</em></span>` +
+            `<b>${money(total)}</b>` +
+            `<time>剛剛</time>`
+          );
+          list.prepend(row);
+          while (list.children.length > 5) list.removeChild(list.lastElementChild);
+        }
+        const ordersMetric = $('[data-metric-orders]');
+        if (ordersMetric) {
+          const next = Number(ordersMetric.textContent.replace(/[^0-9]/g, '')) + 1;
+          ordersMetric.textContent = next.toLocaleString('en-US');
+        }
+        const netMetric = $('[data-metric-net]');
+        if (netMetric) {
+          const current = Number(netMetric.textContent.replace(/[^0-9]/g, ''));
+          netMetric.textContent = money(current + total);
+        }
+        toast(`Sale completed · order ${id} saved locally · 已完成結帳 NT$ ${total.toLocaleString('en-US')}`);
+      };
+
+      $$('[data-action]').forEach((button) => button.addEventListener('click', (event) => {
+        const action = button.dataset.action;
+        if (action === 'profile') {
+          const order = ['fnb', 'retail', 'service'];
+          const next = order[(order.indexOf(state.industry) + 1) % order.length];
+          openSwitch(next);
+        } else if (action === 'close-modal') {
+          closeModal();
+        } else if (action === 'confirm-switch') {
+          const target = state.pendingIndustry;
+          closeModal();
+          if (target && target !== state.industry) {
+            takeSnapshot(state.industry);
+            setIndustry(target);
+          }
+        } else if (action === 'clear-cart') {
+          if (Object.keys(state.cart).length === 0) { toast('Cart already empty'); return; }
+          state.cart = {};
+          renderCart();
+          toast('Cart cleared · 購物車已清空');
+        } else if (action === 'checkout') {
+          const items = cartItems();
+          if (items.length === 0) { toast('Cart is empty · cannot checkout'); return; }
+          const total = items.reduce((sum, entry) => sum + entry.product.price * entry.quantity, 0);
+          recordOrder(items, total);
+          state.cart = {};
+          renderCart();
+        } else if (action === 'new-sale') {
+          state.cart = {};
+          renderCart();
+          toast('New sale ready · 新的交易準備就緒');
+        } else if (action === 'search') {
+          if (searchInput) searchInput.focus();
+          toast('Search is ready · press / anytime · 搜尋已就緒');
+        } else if (action === 'snapshot') {
+          toast('Snapshot stored on this device · 快照僅存於本機');
+        } else if (action === 'catalog' || action === 'orders' || action === 'status' || action === 'help') {
+          toast(`${button.textContent.trim()} · prototype entry · 原型入口`);
+        } else if (action === 'locale') {
+          const order = ['zh-TW', 'en-US', 'ja-JP', 'ar'];
+          state.locale = order[(order.indexOf(state.locale) + 1) % order.length];
+          applyLocale();
+          toast(`${localeInfo().label} · ${localeInfo().code} · locale preview`);
+        } else if (action === 'channel') {
+          toast('Channel selector is a productized entry · data stays in the formal app');
+        } else if (action === 'workspace') {
+          toast('Workspace switcher is a productized entry · data stays in the formal app');
+        }
+        if (action === 'clear-cart' || action === 'checkout' || action === 'new-sale') event.preventDefault();
+      }));
+
+      document.addEventListener('keydown', (event) => {
+        const modalOpen = $('[data-modal]') && !$('[data-modal]').hidden;
+        if (event.key === '/' && document.activeElement && document.activeElement.tagName !== 'INPUT' && !modalOpen) {
+          event.preventDefault();
+          if (searchInput) searchInput.focus();
+        } else if (event.key === 'Escape' && modalOpen) {
+          closeModal();
+        }
+      });
+
+      // initial render
+      renderCategoryTabs();
+      applyCatalogFilters();
+      applyLocale();
+      renderCart();
+    </script>
+  </body>
+</html>
